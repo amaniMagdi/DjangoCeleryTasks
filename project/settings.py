@@ -37,6 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_celery_beat',
+    'project_tasks'
 ]
 
 MIDDLEWARE = [
@@ -124,3 +126,10 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Celery Configuration
 CELERY_BROKER_URL = 'redis://127.0.0.1:6379'
+CELERY_BEAT_SCHEDULE = {
+    "SendScheduledEmails": {
+        'task': 'project_tasks.tasks.send_scheduled_emails',
+        'schedule': 10, #every 10 seconds
+        #'schedule': crontab(minute="*/30") # every 30 minutes
+    }
+}
